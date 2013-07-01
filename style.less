@@ -1,0 +1,213 @@
+@us_button_width:95px;
+@us_button_share_width:55px;
+@us_button_count_width:40px;
+
+.us_background_ease {
+  -webkit-transition: all 800ms ease;
+  -moz-transition: all 800ms ease;
+  -ms-transition: all 800ms ease;
+  -o-transition: all 800ms ease;
+  transition: all 800ms ease;
+}
+
+#us_wrapper {
+  text-align: center;
+  cursor: pointer;
+  a {
+    color:white;
+  }
+  .us_twitter {
+    width:@us_button_width;
+    background-color: #39a9e0;
+    display:inline-block;
+    .us_background_ease;
+    &:hover {
+      background-color: green;
+      .us_background_ease;
+    }
+    .box {
+      display:inline-block;
+      width:@us_button_width;
+      font-size: 18px;
+      margin-top:4px;
+      .count {
+        display:inline-block;
+        text-align:left;
+        background-color:transparent;
+        width: @us_button_count_width;
+        float:left;
+      }
+      .share {
+        text-align:center;
+        display:inline-block;
+        width: @us_button_share_width;
+        float:left;
+      }
+    }
+  }
+  .us_facebook {
+    width:@us_button_width;
+    background-color: #3b5998;
+    display:inline-block;
+    .us_background_ease;
+    &:hover {
+      .us_background_ease;
+      background-color: green;
+    }
+    .box {
+    display:inline-block;
+    width:@us_button_width;
+    font-size: 18px;
+    margin-top:4px;
+    .count {
+      display:inline-block;
+      text-align:left;
+      background-color:transparent;
+      width: @us_button_count_width;
+      float:left;
+    }
+    .share {
+      text-align:center;
+      display:inline-block;
+      width: @us_button_share_width;
+      float:left;
+      }
+    }
+  }
+  .us_googleplus {
+    width:@us_button_width;
+    background-color: #d14836;
+    display:inline-block;
+    .us_background_ease;
+    &:hover {
+      .us_background_ease;
+      background-color: green;
+    }
+    .box {
+      display:inline-block;
+      width:@us_button_width;
+      font-size: 18px;
+      margin-top:4px;
+      .count {
+        display:inline-block;
+        text-align:left;
+        background-color:transparent;
+        width: @us_button_count_width;
+        float:left;
+      }
+      .share {
+        text-align:center;
+        display:inline-block;
+        width: @us_button_share_width;
+        float:left;
+      }
+    }
+  }
+  .us_pinterest {
+    width:@us_button_width;
+    background-color: #CC2222;
+    display:inline-block;
+    .us_background_ease;
+    &:hover {
+      .us_background_ease;
+      background-color: green;
+    }
+    .box {
+      display:inline-block;
+      width:@us_button_width;
+      font-size: 18px;
+      margin-top:4px;
+      .count {
+        display:inline-block;
+        text-align:left;
+        background-color:transparent;
+        width: @us_button_count_width;
+        float:left;
+      }
+      .share {
+        text-align:center;
+        display:inline-block;
+        width: @us_button_share_width;
+        float:left;
+      }
+    }
+  }
+  .us_linkedin {
+    width:@us_button_width;
+    background-color: #39C;
+    display:inline-block;
+    .us_background_ease;
+    &:hover {
+      .us_background_ease;
+      background-color: green;
+    }
+    .box {
+      display:inline-block;
+      width:@us_button_width;
+      font-size: 18px;
+      margin-top:4px;
+      .count {
+        display:inline-block;
+        text-align:left;
+        background-color:transparent;
+        width: @us_button_count_width;
+        float:left;
+      }
+      .share {
+        text-align:center;
+        display:inline-block;
+        width: @us_button_share_width;
+        float:left;
+      }
+    }
+  }
+  .us_mail {
+      width:@us_button_width;
+      background-color: #666;
+      display:inline-block;
+      .us_background_ease;
+      &:hover {
+        .us_background_ease;
+        background-color: green;
+      }
+      .box {
+        display:inline-block;
+        width:100%;
+        font-size: 18px;
+        margin-top:4px;
+      .share {
+        text-align:center;
+        display:inline-block;
+        width: 100%;
+        float:left;
+      }
+    }
+  }
+}
+
+.us_floating {
+  position: fixed;
+  top: 200px;
+  left: 0px;
+  z-index: 1;
+  #us_wrapper {
+    width:55px;
+    .us_twitter, .us_facebook, .us_googleplus, .us_pinterest, .us_linkedin {
+      display:block;
+      width:55px;
+      overflow: hidden;
+      .box {
+        55px;
+      }
+    }
+    .us_mail {
+      display:block;
+      width:55px;
+      .box {
+        .share {
+          width: 100%;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+== Description ==
+<h3>What is Ultimate Social?</h3>
+
+Ultimate Social is a plugin that gives you 6 styled social buttons which loads faster than normal social buttons. The Ultimate Social buttons is styled with LESS and will look great on any site. Due to the local javascript the buttons loads at the same time as your site and your rating at search engines will improve compared to standard socail buttons.
+
+There is a section included with powerfull options.
+
+<h3>Shortcode</h3>
+
+<strong>The markup is as follows:</strong>
+To show all buttons that counts on the current page:
+[ultimatesocial]
+
+To show a Facebook button that counts likes on http://ultimatesocial.ahansson.com:
+[ultimatesocial facebook="true" url="http://ultimatesocial.ahansson.com"]
+
+To hide the Facebook button but show all other buttons:
+[ultimatesocial facebook="false" twitter="true" google="true" pinterest="true" linkedin="true" mail="true"]
+
+<h3>Support</h3>
+
+Please do not leave a review as a support question, they are for reviews. I am not notified of these reviews, and I have no way to respond to you. Please <strong>do not email me for support</strong>, because you will not receive a reply. If you need assistance, click the link in the box below - this link leads you to the forums where you can get support. <strong>Thanks!</strong>
+
+== Changelog ==
+
+= 1.0 =
+* Initial Release

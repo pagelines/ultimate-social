@@ -1,9 +1,9 @@
 == Description ==
 <h3>What is Ultimate Social?</h3>
 
-Ultimate Social is a plugin that gives you 6 styled social buttons which loads faster than normal social buttons. The Ultimate Social buttons is styled with LESS and will look great on any site. Due to the local javascript the buttons loads at the same time as your site and your rating at search engines will improve compared to standard socail buttons.
+Ultimate Social is a plugin that gives you 6 styled social buttons which loads faster than normal social buttons. The Ultimate Social buttons is styled with LESS and will look great on any site. Due to the local javascript the buttons loads at the same time as your site and your rating at search engines will improve compared to standard social buttons.
 
-There is a section included with powerfull options.
+There is a section included with powerful options.
 
 <h3>Shortcode</h3>
 

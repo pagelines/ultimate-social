@@ -9,7 +9,7 @@ Demo: http://ultimatesocial.ahansson.com
 Class Name: UltimateSocialSection
 Workswith: templates, main, sidebar1, sidebar2, sidebar_wrap, header, footer, morefoot
 Cloning: true
-V3: true
+v3: true
 */
 
 class UltimateSocial {

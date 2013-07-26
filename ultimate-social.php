@@ -2,7 +2,7 @@
 /*
 Plugin Name: Ultimate Social
 Description: Ultimate Social is a plugin that gives you 6 styled social buttons which loads faster than normal social buttons.
-Version: 1.0
+Version: 1.1
 Author: Aleksander Hansson
 Author URI: http://ahansson.com
 Demo: http://ultimatesocial.ahansson.com

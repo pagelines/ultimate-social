@@ -23,5 +23,8 @@ Please do not leave a review as a support question, they are for reviews. I am n
 
 == Changelog ==
 
+= 1.1 = 
+* Small bug fixes
+
 = 1.0 =
 * Initial Release

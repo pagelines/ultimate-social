@@ -4,12 +4,11 @@
 	Author: Aleksander Hansson
 	Author URI: http://ahansson.com
 	Demo: http://accordy.ahansson.com
-	Version: 1.2
 	Description: Section to show Ultimate Social buttons anywhere on your site.
 	Class Name: UltimateSocialSection
-	Workswith: main, templates, header
 	Cloning: true
 	V3: true
+	Filter: social
 */
 
 class UltimateSocialSection extends PageLinesSection {

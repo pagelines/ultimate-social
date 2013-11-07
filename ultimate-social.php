@@ -2,14 +2,13 @@
 /*
 Plugin Name: Ultimate Social
 Description: Ultimate Social is a plugin that gives you 6 styled social buttons which loads faster than normal social buttons.
-Version: 1.3
+Version: 1.4
 Author: Aleksander Hansson
 Author URI: http://ahansson.com
 Demo: http://ultimatesocial.ahansson.com
 Class Name: UltimateSocialSection
 Cloning: true
 v3: true
-PageLines: true
 */
 
 class UltimateSocial {
@@ -21,8 +20,6 @@ class UltimateSocial {
 		add_action( 'wp_enqueue_scripts', array( &$this, 'js' ) );
 
 		add_action( 'wp_head', array( &$this, 'js_settings' ) );
-
-		add_action( 'init', array( &$this, 'settings' ) );
 
 		add_action( 'template_redirect', array( &$this, 'shortcode' ) );
 
@@ -37,6 +34,29 @@ class UltimateSocial {
 		add_action( 'pagelines_loop_after_post_content', array( &$this, 'buttons_pages_bottom' ) );
 
 		add_action( 'pagelines_page', array( &$this, 'buttons_floating' ) );
+
+		add_action( 'init', array( &$this, 'init' ) );
+
+		add_action( 'init', array( &$this, 'ah_updater_init' ) );
+
+	}
+
+	function ah_updater_init() {
+
+		require_once( trailingslashit( plugin_dir_path( __FILE__ ) ) . 'includes/plugin-updater.php' );
+
+		$config = array(
+			'base'      => plugin_basename( __FILE__ ), 
+			'repo_uri'  => 'http://shop.ahansson.com',  
+			'repo_slug' => 'ultimate-social',
+		);
+
+		new AH_UltimateSocial_Plugin_Updater( $config );
+	}
+
+	function init() {
+
+		add_filter( 'pl_settings_array', array(&$this, 'options') );
 
 	}
 	/**
@@ -143,226 +163,316 @@ class UltimateSocial {
 		<?php
 	}
 
-	function settings() {
-		// options array for creating the settings tab
-		$options = array(
+	function options( $settings ){
 
-		'us_settings'  => array(
-			'title' => __('Settings', 'ultimate-social'),
-			'type'    => 'multi_option',
-			'selectvalues' => array(
-				// tweet via option
-				'tweet_via'   =>  array(
-					'type'    =>  'text',
-					'title'   =>  __('Tweet via.', 'ultimate-social'),
-					'inputlabel'  =>  __('Type in your Twitter name: @', 'ultimate-social'),
-				),
-			),
-		),
+		$how_to_use = __( '
+			<strong>Read the instructions below before asking for additional help:</strong>
+			</br></br>
+			<strong>Ultimate Social can be placed different places.</strong>
+			</br>
+			<strong class="tac">To place with section:</strong>
+			</br>
+			<strong>1.</strong> In the frontend editor, drag the Ultimate Social section to a template of your choice.
+			</br></br>
+			<strong>2.</strong> Edit settings for Ultimate Social.
+			</br></br>
+			<strong>3.</strong> When you are done, hit "Publish" and refresh to see changes.
+			</br></br>
+			<strong class="tac">To place with shortcode:</strong>
+			</br>
+			To show all buttons that counts on the current page:</br>
+			&#91;ultimatesocial&#93;
+			</br></br>
+			To show a Facebook button that counts likes on http://ultimatesocial.ahansson.com:</br>
+			&#91;ultimatesocial facebook="true" url="http://ultimatesocial.ahansson.com"&#93;
+			</br></br>
+			To hide the Facebook button but show all other buttons:</br>
+			&#91;ultimatesocial facebook="false" twitter="true" google="true" pinterest="true" linkedin="true" mail="true"&#93;
+			</br></br>
+			<strong class="tac">To place in post, pages, etc.:</strong>
+			</br>
+			Go to (Global Settings->Ultimate Social) in the front editor and check/uncheck where you want it.
+			</br></br>
+			<div class="row zmb">
+				<div class="span6 tac zmb">
+					<a class="btn btn-info" href="http://forum.pagelines.com/71-products-by-aleksander-hansson/" target="_blank" style="padding:4px 0 4px;width:100%"><i class="icon-ambulance"></i>          Forum</a>
+				</div>
+				<div class="span6 tac zmb">
+					<a class="btn btn-info" href="http://betterdms.com" target="_blank" style="padding:4px 0 4px;width:100%"><i class="icon-align-justify"></i>          Better DMS</a>
+				</div>
+			</div>
+			<div class="row zmb" style="margin-top:4px;">
+				<div class="span12 tac zmb">
+					<a class="btn btn-success" href="http://shop.ahansson.com" target="_blank" style="padding:4px 0 4px;width:100%"><i class="icon-shopping-cart" ></i>          My Shop</a>
+				</div>
+			</div>
+			', 'ultimate-social' );
 
-		'us_floating'  => array(
-			'title' => __( 'Floating', 'ultimate-social' ),
-			'type'     => 'multi_option',
-			'selectvalues'   => array(
-				'us_floating_facebook' =>  array(
-					'type' => 'check',
-					'inputlabel' => __( 'Show Facebook Button?', 'ultimate-social' )
-				),
-				'us_floating_twitter' =>  array(
-					'type' => 'check',
-					'inputlabel' => __( 'Show Twitter Button?', 'ultimate-social' )
-				),
-				'us_floating_google' =>  array(
-					'type' => 'check',
-					'inputlabel' => __( 'Show Google Button?', 'ultimate-social' )
-				),
-				'us_floating_pinterest' =>  array(
-					'type' => 'check',
-					'inputlabel' => __( 'Show Pinterest Button?', 'ultimate-social' )
-				),
-				'us_floating_linkedin' =>  array(
-					'type' => 'check',
-					'inputlabel' => __( 'Show LinkedIn Button?', 'ultimate-social' )
-				),
-				'us_floating_mail' =>  array(
-					'type' => 'check',
-					'inputlabel' => __( 'Show Mail Button?', 'ultimate-social' )
-				),
-				'us_floating_custom_url' =>  array(
-					'type' => 'text',
-					'inputlabel' => __( 'Custom URL? (Optional)', 'ultimate-social' )
-				),
-			),
-		),
+        $settings['ultimate-social'] = array(
+            'name'  => 'Ultimate Social',
+            'icon'  => 'icon-facebook',
+            'pos'   => 5,
+            'opts'  => array(
 
-		'us_excerpts_bottom'  => array(
-			'title' => __( 'Excerpts Bottom', 'ultimate-social' ),
-			'type'     => 'multi_option',
-			'selectvalues'   => array(
-				'us_excerpts_bottom_facebook' =>  array(
-					'type' => 'check',
-					'inputlabel' => __( 'Show Facebook Button?', 'ultimate-social' )
+				array(
+					'key' => 'us_help',
+					'type'     => 'template',
+					'template'      => do_shortcode( $how_to_use ),
+					'title' =>__( 'How to use:', 'ultimate-social' ) ,
 				),
-				'us_excerpts_bottom_twitter' =>  array(
-					'type' => 'check',
-					'inputlabel' => __( 'Show Twitter Button?', 'ultimate-social' )
-				),
-				'us_excerpts_bottom_google' =>  array(
-					'type' => 'check',
-					'inputlabel' => __( 'Show Google Button?', 'ultimate-social' )
-				),
-				'us_excerpts_bottom_pinterest' =>  array(
-					'type' => 'check',
-					'inputlabel' => __( 'Show Pinterest Button?', 'ultimate-social' )
-				),
-				'us_excerpts_bottom_linkedin' =>  array(
-					'type' => 'check',
-					'inputlabel' => __( 'Show LinkedIn Button?', 'ultimate-social' )
-				),
-				'us_excerpts_bottom_mail' =>  array(
-					'type' => 'check',
-					'inputlabel' => __( 'Show Mail Button?', 'ultimate-social' )
-				),
-			),
-		),
 
-		'us_posts_top'  => array(
-			'title' => __( 'Posts Top', 'ultimate-social' ),
-			'type'     => 'multi_option',
-			'selectvalues'   => array(
-				'us_posts_top_facebook' =>  array(
-					'type' => 'check',
-					'inputlabel' => __( 'Show Facebook Button?', 'ultimate-social' )
+				array(
+					'key' => 'us_settings',
+					'title' => __('Settings', 'ultimate-social'),
+					'type'    => 'multi',
+					'opts' => array(
+						// tweet via option
+						array(
+							'key' => 'tweet_via',
+							'type'    =>  'text',
+							'title'   =>  __('Tweet via.', 'ultimate-social'),
+							'label'  =>  __('Type in your Twitter name: @', 'ultimate-social'),
+						),
+					),
 				),
-				'us_posts_top_twitter' =>  array(
-					'type' => 'check',
-					'inputlabel' => __( 'Show Twitter Button?', 'ultimate-social' )
-				),
-				'us_posts_top_google' =>  array(
-					'type' => 'check',
-					'inputlabel' => __( 'Show Google Button?', 'ultimate-social' )
-				),
-				'us_posts_top_pinterest' =>  array(
-					'type' => 'check',
-					'inputlabel' => __( 'Show Pinterest Button?', 'ultimate-social' )
-				),
-				'us_posts_top_linkedin' =>  array(
-					'type' => 'check',
-					'inputlabel' => __( 'Show LinkedIn Button?', 'ultimate-social' )
-				),
-				'us_posts_top_mail' =>  array(
-					'type' => 'check',
-					'inputlabel' => __( 'Show Mail Button?', 'ultimate-social' )
-				),
-			),
-		),
 
-		'us_posts_bottom'  => array(
-			'title' => __( 'Posts Bottom', 'ultimate-social' ),
-			'type'     => 'multi_option',
-			'selectvalues'   => array(
-				'us_posts_bottom_facebook' =>  array(
-					'type' => 'check',
-					'inputlabel' => __( 'Show Facebook Button?', 'ultimate-social' )
+				array(
+					'key' => 'us_floating',
+					'title' => __( 'Floating', 'ultimate-social' ),
+					'type'     => 'multi',
+					'opts'   => array(
+						array(
+							'key' => 'us_floating_facebook',
+							'type' => 'check',
+							'label' => __( 'Show Facebook Button?', 'ultimate-social' )
+						),
+						array(
+							'key' => 'us_floating_twitter',
+							'type' => 'check',
+							'label' => __( 'Show Twitter Button?', 'ultimate-social' )
+						),
+						array(
+							'key' => 'us_floating_google',
+							'type' => 'check',
+							'label' => __( 'Show Google Button?', 'ultimate-social' )
+						),
+						array(
+							'key' => 'us_floating_pinterest',
+							'type' => 'check',
+							'label' => __( 'Show Pinterest Button?', 'ultimate-social' )
+						),
+						array(
+							'key' => 'us_floating_linkedin',
+							'type' => 'check',
+							'label' => __( 'Show LinkedIn Button?', 'ultimate-social' )
+						),
+						array(
+							'key' => 'us_floating_mail',
+							'type' => 'check',
+							'label' => __( 'Show Mail Button?', 'ultimate-social' )
+						),
+						array(
+							'key' => 'us_floating_custom_url',
+							'type' => 'text',
+							'label' => __( 'Custom URL? (Optional)', 'ultimate-social' )
+						),
+					),
 				),
-				'us_posts_bottom_twitter' =>  array(
-					'type' => 'check',
-					'inputlabel' => __( 'Show Twitter Button?', 'ultimate-social' )
-				),
-				'us_posts_bottom_google' =>  array(
-					'type' => 'check',
-					'inputlabel' => __( 'Show Google Button?', 'ultimate-social' )
-				),
-				'us_posts_bottom_pinterest' =>  array(
-					'type' => 'check',
-					'inputlabel' => __( 'Show Pinterest Button?', 'ultimate-social' )
-				),
-				'us_posts_bottom_linkedin' =>  array(
-					'type' => 'check',
-					'inputlabel' => __( 'Show LinkedIn Button?', 'ultimate-social' )
-				),
-				'us_posts_bottom_mail' =>  array(
-					'type' => 'check',
-					'inputlabel' => __( 'Show Mail Button?', 'ultimate-social' )
-				),
-			),
-		),
 
-		'us_pages_top'  => array(
-			'title' => __( 'Pages Top', 'ultimate-social' ),
-			'type'     => 'multi_option',
-			'selectvalues'   => array(
-				'us_pages_top_facebook' =>  array(
-					'type' => 'check',
-					'inputlabel' => __( 'Show Facebook Button?', 'ultimate-social' )
+				array(
+					'key' => 'us_excerpts_bottom',
+					'title' => __( 'Excerpts Bottom', 'ultimate-social' ),
+					'type'     => 'multi',
+					'opts'   => array(
+						array(
+							'key' => 'us_excerpts_bottom_facebook',
+							'type' => 'check',
+							'label' => __( 'Show Facebook Button?', 'ultimate-social' )
+						),
+						array(
+							'key' => 'us_excerpts_bottom_twitter',
+							'type' => 'check',
+							'label' => __( 'Show Twitter Button?', 'ultimate-social' )
+						),
+						array(
+							'key' => 'us_excerpts_bottom_google',
+							'type' => 'check',
+							'label' => __( 'Show Google Button?', 'ultimate-social' )
+						),
+						array(
+							'key' => 'us_excerpts_bottom_pinterest',
+							'type' => 'check',
+							'label' => __( 'Show Pinterest Button?', 'ultimate-social' )
+						),
+						array(
+							'key' => 'us_excerpts_bottom_linkedin',
+							'type' => 'check',
+							'label' => __( 'Show LinkedIn Button?', 'ultimate-social' )
+						),
+						array(
+							'key' => 'us_excerpts_bottom_mail',
+							'type' => 'check',
+							'label' => __( 'Show Mail Button?', 'ultimate-social' )
+						),
+					),
 				),
-				'us_pages_top_twitter' =>  array(
-					'type' => 'check',
-					'inputlabel' => __( 'Show Twitter Button?', 'ultimate-social' )
-				),
-				'us_pages_top_google' =>  array(
-					'type' => 'check',
-					'inputlabel' => __( 'Show Google Button?', 'ultimate-social' )
-				),
-				'us_pages_top_pinterest' =>  array(
-					'type' => 'check',
-					'inputlabel' => __( 'Show Pinterest Button?', 'ultimate-social' )
-				),
-				'us_pages_top_linkedin' =>  array(
-					'type' => 'check',
-					'inputlabel' => __( 'Show LinkedIn Button?', 'ultimate-social' )
-				),
-				'us_pages_top_mail' =>  array(
-					'type' => 'check',
-					'inputlabel' => __( 'Show Mail Button?', 'ultimate-social' )
-				),
-			),
-		),
 
-		'us_pages_bottom'  => array(
-			'title' => __( 'Pages Bottom', 'ultimate-social' ),
-			'type'     => 'multi_option',
-			'selectvalues'   => array(
-				'us_pages_bottom_facebook' =>  array(
-					'type' => 'check',
-					'inputlabel' => __( 'Show Facebook Button?', 'ultimate-social' )
+				array(
+					'key' => 'us_posts_top',
+					'title' => __( 'Posts Top', 'ultimate-social' ),
+					'type'     => 'multi',
+					'opts'   => array(
+						array(
+							'key' => 'us_posts_top_facebook',
+							'type' => 'check',
+							'label' => __( 'Show Facebook Button?', 'ultimate-social' )
+						),
+						array(
+							'key' => 'us_posts_top_twitter',
+							'type' => 'check',
+							'label' => __( 'Show Twitter Button?', 'ultimate-social' )
+						),
+						array(
+							'key' => 'us_posts_top_google',
+							'type' => 'check',
+							'label' => __( 'Show Google Button?', 'ultimate-social' )
+						),
+						array(
+							'key' => 'us_posts_top_pinterest',
+							'type' => 'check',
+							'label' => __( 'Show Pinterest Button?', 'ultimate-social' )
+						),
+						array(
+							'key' => 'us_posts_top_linkedin',
+							'type' => 'check',
+							'label' => __( 'Show LinkedIn Button?', 'ultimate-social' )
+						),
+						array(
+							'key' => 'us_posts_top_mail',
+							'type' => 'check',
+							'label' => __( 'Show Mail Button?', 'ultimate-social' )
+						),
+					),
 				),
-				'us_pages_bottom_twitter' =>  array(
-					'type' => 'check',
-					'inputlabel' => __( 'Show Twitter Button?', 'ultimate-social' )
-				),
-				'us_pages_bottom_google' =>  array(
-					'type' => 'check',
-					'inputlabel' => __( 'Show Google Button?', 'ultimate-social' )
-				),
-				'us_pages_bottom_pinterest' =>  array(
-					'type' => 'check',
-					'inputlabel' => __( 'Show Pinterest Button?', 'ultimate-social' )
-				),
-				'us_pages_bottom_linkedin' =>  array(
-					'type' => 'check',
-					'inputlabel' => __( 'Show LinkedIn Button?', 'ultimate-social' )
-				),
-				'us_pages_bottom_mail' =>  array(
-					'type' => 'check',
-					'inputlabel' => __( 'Show Mail Button?', 'ultimate-social' )
-				),
-			),
-		),
 
+				array(
+					'key' => 'us_posts_bottom',
+					'title' => __( 'Posts Bottom', 'ultimate-social' ),
+					'type'     => 'multi',
+					'opts'   => array(
+						array(
+							'key' => 'us_posts_bottom_facebook',
+							'type' => 'check',
+							'label' => __( 'Show Facebook Button?', 'ultimate-social' )
+						),
+						array(
+							'key' => 'us_posts_bottom_twitter',
+							'type' => 'check',
+							'label' => __( 'Show Twitter Button?', 'ultimate-social' )
+						),
+						array(
+							'key' => 'us_posts_bottom_google',
+							'type' => 'check',
+							'label' => __( 'Show Google Button?', 'ultimate-social' )
+						),
+						array(
+							'key' => 'us_posts_bottom_pinterest',
+							'type' => 'check',
+							'label' => __( 'Show Pinterest Button?', 'ultimate-social' )
+						),
+						array(
+							'key' => 'us_posts_bottom_linkedin',
+							'type' => 'check',
+							'label' => __( 'Show LinkedIn Button?', 'ultimate-social' )
+						),
+						array(
+							'key' => 'us_posts_bottom_mail',
+							'type' => 'check',
+							'label' => __( 'Show Mail Button?', 'ultimate-social' )
+						),
+					),
+				),
 
+				array(
+					'key' => 'us_pages_top',
+					'title' => __( 'Pages Top', 'ultimate-social' ),
+					'type'     => 'multi',
+					'opts'   => array(
+						array(
+							'key' => 'us_pages_top_facebook',
+							'type' => 'check',
+							'label' => __( 'Show Facebook Button?', 'ultimate-social' )
+						),
+						array(
+							'key' => 'us_pages_top_twitter',
+							'type' => 'check',
+							'label' => __( 'Show Twitter Button?', 'ultimate-social' )
+						),
+						array(
+							'key' => 'us_pages_top_google',
+							'type' => 'check',
+							'label' => __( 'Show Google Button?', 'ultimate-social' )
+						),
+						array(
+							'key' => 'us_pages_top_pinterest',
+							'type' => 'check',
+							'label' => __( 'Show Pinterest Button?', 'ultimate-social' )
+						),
+						array(
+							'key' => 'us_pages_top_linkedin',
+							'type' => 'check',
+							'label' => __( 'Show LinkedIn Button?', 'ultimate-social' )
+						),
+						array(
+							'key' => 'us_pages_top_mail',
+							'type' => 'check',
+							'label' => __( 'Show Mail Button?', 'ultimate-social' )
+						),
+					),
+				),
 
-	);
-
-		// add options page to pagelines settings
-		pl_add_options_page(
-			array(
-				'name' => 'Ultimate Social',
-				'array' => $options
+				array(
+					'key' => 'us_pages_bottom',
+					'title' => __( 'Pages Bottom', 'ultimate-social' ),
+					'type'     => 'multi',
+					'opts'   => array(
+						array(
+							'key' => 'us_pages_bottom_facebook',
+							'type' => 'check',
+							'label' => __( 'Show Facebook Button?', 'ultimate-social' )
+						),
+						array(
+							'key' => 'us_pages_bottom_twitter',
+							'type' => 'check',
+							'label' => __( 'Show Twitter Button?', 'ultimate-social' )
+						),
+						array(
+							'key' => 'us_pages_bottom_google',
+							'type' => 'check',
+							'label' => __( 'Show Google Button?', 'ultimate-social' )
+						),
+						array(
+							'key' => 'us_pages_bottom_pinterest',
+							'type' => 'check',
+							'label' => __( 'Show Pinterest Button?', 'ultimate-social' )
+						),
+						array(
+							'key' => 'us_pages_bottom_linkedin',
+							'type' => 'check',
+							'label' => __( 'Show LinkedIn Button?', 'ultimate-social' )
+						),
+						array(
+							'key' => 'us_pages_bottom_mail',
+							'type' => 'check',
+							'label' => __( 'Show Mail Button?', 'ultimate-social' )
+						),
+					),
+				),
 			)
 		);
 
-	}
+        return $settings;
+    }
 
 	function catch_first_image() {
 		global $post, $posts;

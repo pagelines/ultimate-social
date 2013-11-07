@@ -7,7 +7,6 @@ Author: Aleksander Hansson
 Author URI: http://ahansson.com
 Demo: http://ultimatesocial.ahansson.com
 Class Name: UltimateSocialSection
-Cloning: true
 v3: true
 */
 
